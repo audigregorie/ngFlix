@@ -1,0 +1,112 @@
+<ng-container *ngIf="show$ | async as show">
+  <!-- Brackets around show comes from typescript to pass in one object to a variable expecting an array of objects -->
+  <app-slider [slides]="[show]" [isHeader]="true"></app-slider>
+
+  <p-tabView>
+    <!-- Overview -->
+    <p-tabPanel header="Overview">
+      <div class="grid">
+        <div class="col-3">
+          <img [src]="imagesSizes.medium + show.poster_path" alt="" class="poster" />
+        </div>
+        <div class="col-9">
+          <h2>Overview</h2>
+          <p class="overview">{{ show.overview }}</p>
+
+          <!-- Release Date -->
+          <div class="stat">
+            <div class="label">Release Date:</div>
+            <div class="value">
+              {{ show.release_date | date: 'dd.MM.yyyy' }}
+            </div>
+          </div>
+
+          <!-- Language -->
+          <div class="stat">
+            <div class="label">Language</div>
+            <div class="value">
+              {{ show.original_language }}
+            </div>
+          </div>
+
+          <!-- Revenue -->
+          <div class="stat">
+            <div class="label">Revenue:</div>
+            <div class="value">
+              {{ show.revenue | currency }}
+            </div>
+          </div>
+
+          <!-- Duration -->
+          <div class="stat">
+            <div class="label">Duration:</div>
+            <div class="value">{{ show.runtime }} min</div>
+          </div>
+
+          <!-- Status -->
+          <div class="stat">
+            <div class="label">Status:</div>
+            <div class="value">
+              {{ show.status }}
+            </div>
+          </div>
+
+          <!-- Genres -->
+          <div class="stat">
+            <div class="label">Genres:</div>
+            <div class="value">
+              <span *ngFor="let genre of show.genres">{{ genre.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+
+    <!-- Videos -->
+    <p-tabPanel header="Videos">
+      <ng-container *ngIf="showVideos$ | async as showVideos">
+        <div class="grid">
+          <div class="col-4" *ngFor="let showVideo of showVideos">
+            <app-video-embed [key]="showVideo.key"></app-video-embed>
+          </div>
+        </div>
+      </ng-container>
+    </p-tabPanel>
+
+    <!-- Photos -->
+    <p-tabPanel header=" Photos">
+      <!-- Movie images -->
+      <ng-container *ngIf="showImages$ | async as showImages">
+        <div class="grid">
+          <div class="col-2" *ngFor="let showImage of showImages">
+            <p-image [src]="imagesSizes.large + showImage.file_path" [alt]="show.title" width="100%"
+              [preview]="true"></p-image>
+          </div>
+        </div>
+      </ng-container>
+    </p-tabPanel>
+  </p-tabView>
+
+  <!-- Cast -->
+  <ng-container *ngIf="showCast$ | async as actors">
+    <p-carousel [value]="actors" [numVisible]="6" [numScroll]="3" [circular]="false">
+      <ng-template let-actor pTemplate="item">
+        <div class="actor">
+          <img *ngIf="actor.profile_path; else defaultActorPhoto" [src]="imagesSizes.medium + actor.profile_path"
+            alt="" />
+          <div>{{ actor.character }}</div>
+          <div>{{ actor.name }}</div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </ng-container>
+</ng-container>
+<!-- Else template -->
+<ng-template #defaultActorPhoto>
+  <img class="no-picture" src="../../../assets/no-picture.jpg" alt="No Picture" />
+</ng-template>
+
+<!-- Similar movies -->
+<ng-container *ngIf="showSimilarShows$ | async as showSimilarShows">
+  <app-banner [title]="'Similar Shows'" [shows]="showSimilarShows"></app-banner>
+</ng-container>
