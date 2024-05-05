@@ -4,8 +4,8 @@ A web app to view upcoming and popular movies and tv shows through search or by 
 
 This project was built to practice interacting with an API.
 
-Technologies used:
+Tools used:
 
 - Angular
-- TailwindCSS
+- PrimeFlex
 - PrimeNg
