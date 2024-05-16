@@ -1,4 +1,4 @@
-# NgFlix
+# WeFlix
 
 A web app to view upcoming and popular movies and tv shows.
 
