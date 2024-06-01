@@ -8,5 +8,24 @@
     border-radius: 5px;
     font-size: 1.4rem;
     display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.media-buttons {
+  margin-bottom: 20px;
+  a {
+    padding: 5px;
+    background-color: $primary-color;
+    opacity: 0.5;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .active {
+    opacity: 1;
   }
 }

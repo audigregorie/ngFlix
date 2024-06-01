@@ -2,8 +2,9 @@ import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Genre, MoviesDto } from '../../types/movie'
 import { MoviesService } from '../../services/movies.service'
-import { Observable } from 'rxjs'
-import { PaginatorState } from 'primeng/paginator'
+import { Observable, map } from 'rxjs'
+import { TvshowsService } from '../../services/tvshows.service'
+import { mapToMoviesDto } from '../../types/tvshow'
 
 @Component({
   selector: 'app-genres',
@@ -13,11 +14,15 @@ import { PaginatorState } from 'primeng/paginator'
 export class GenresComponent implements OnInit {
   private activeRoute = inject(ActivatedRoute)
   private moviesService = inject(MoviesService)
+  private tvshowsService = inject(TvshowsService)
 
   public genres$: Observable<Genre[]> | null = null
-  public showsList$: Observable<MoviesDto> | null = null
+  public media$: Observable<MoviesDto> | null = null
 
+  public mediaType: 'movie' | 'tv' = 'movie'
   public genreId = ''
+  public isActiveMovies: boolean = true
+  public isActiveTvshows: boolean = false
 
   constructor() {}
 
@@ -26,18 +31,22 @@ export class GenresComponent implements OnInit {
     this.genres$ = this.moviesService.getMovieGenres()
     this.activeRoute.params.subscribe((params) => {
       this.genreId = params['genreId']
-      this.getPagedShows(1)
+      this.onPageChange(1)
     })
   }
 
-  // Get the page of shows by its genre
-  public getPagedShows(page: number) {
-    this.showsList$ = this.moviesService.getMoviesByGenre(page, this.genreId)
+  // Toggle between movie and tvshow.
+  public toggleActive(media: 'movie' | 'tv') {
+    this.mediaType = media
+    this.isActiveMovies = media === 'movie'
+    this.isActiveTvshows = media === 'tv'
+    this.onPageChange(1)
   }
 
-  // Get the shows by its genre in referrence to its page number
-  public pageChanged(event: PaginatorState) {
-    const pageNumber = event.page ? event.page + 1 : 1
-    this.getPagedShows(pageNumber)
+  // Get media by genre based on the media selected.
+  public onPageChange(page: number) {
+    this.mediaType === 'movie'
+      ? (this.media$ = this.moviesService.getMoviesByGenre(page, this.genreId))
+      : (this.media$ = this.tvshowsService.getTvshowsByGenre(page, this.genreId).pipe(map(mapToMoviesDto)))
   }
 }

@@ -20,38 +20,42 @@ export class ShowDetailComponent implements OnInit {
   private moviesService = inject(MoviesService)
   private tvshowsService = inject(TvshowsService)
 
-  public show$: Observable<Movie> | null = null
-  public showCast$: Observable<Actor[]> | null = null
-  public showImages$: Observable<Image[]> | null = null
+  public media$: Observable<Movie> | null = null
+  public mediaCast$: Observable<Actor[]> | null = null
+  public mediaImages$: Observable<Image[]> | null = null
 
   public imagesSizes = IMAGES_SIZES
-  public showId = ''
-  public showSimilarShows$: Observable<Movie[]> | null = null
-  public showType: 'movie' | 'tv' = 'movie'
-  public showVideos$: Observable<Video[]> | null = null
+  public mediaId = ''
+  public mediaSimilarShows$: Observable<Movie[]> | null = null
+  public mediaType: 'movie' | 'tv' = 'movie'
+  public mediaVideos$: Observable<Video[]> | null = null
 
   constructor() {}
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe((params) => {
-      this.showId = params['id']
-      this.showType = params['type']
+    this.activeRoute.params
+      .pipe(
+        map((params) => {
+          this.mediaId = params['id']
+          this.mediaType = params['type']
 
-      if (this.showType === 'movie') {
-        this.show$ = this.moviesService.getMovieById(this.showId)
-        this.showVideos$ = this.moviesService.getMovieVideos(this.showId)
-        this.showImages$ = this.moviesService.getMovieImages(this.showId)
-        this.showCast$ = this.moviesService.getMovieCast(this.showId)
-        this.showSimilarShows$ = this.moviesService.getSimilarMovies(this.showId)
-      }
+          if (this.mediaType === 'movie') {
+            this.media$ = this.moviesService.getMovieById(this.mediaId)
+            this.mediaVideos$ = this.moviesService.getMovieVideos(this.mediaId)
+            this.mediaImages$ = this.moviesService.getMovieImages(this.mediaId)
+            this.mediaCast$ = this.moviesService.getMovieCast(this.mediaId)
+            this.mediaSimilarShows$ = this.moviesService.getSimilarMovies(this.mediaId)
+          }
 
-      if (this.showType === 'tv') {
-        this.show$ = this.tvshowsService.getTvshowById(this.showId).pipe(map(mapToMovie))
-        this.showVideos$ = this.tvshowsService.getTvshowVideos(this.showId)
-        this.showImages$ = this.tvshowsService.getTvshowImages(this.showId)
-        this.showCast$ = this.tvshowsService.getTvshowCast(this.showId)
-        this.showSimilarShows$ = this.tvshowsService.getSimilarTvshows(this.showId).pipe(map(mapToMovies))
-      }
-    })
+          if (this.mediaType === 'tv') {
+            this.media$ = this.tvshowsService.getTvshowById(this.mediaId).pipe(map(mapToMovie))
+            this.mediaVideos$ = this.tvshowsService.getTvshowVideos(this.mediaId)
+            this.mediaImages$ = this.tvshowsService.getTvshowImages(this.mediaId)
+            this.mediaCast$ = this.tvshowsService.getTvshowCast(this.mediaId)
+            this.mediaSimilarShows$ = this.tvshowsService.getSimilarTvshows(this.mediaId).pipe(map(mapToMovies))
+          }
+        }),
+      )
+      .subscribe()
   }
 }

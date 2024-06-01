@@ -7,7 +7,7 @@ import { Movie } from '../../types/movie'
   styleUrl: './banner.component.scss',
 })
 export class BannerComponent {
-  @Input() public shows: Movie[] = []
-  @Input() public showsTypes: 'movie' | 'tv' = 'movie'
+  @Input() public media: Movie[] = []
+  @Input() public mediaType: 'movie' | 'tv' = 'movie'
   @Input() public title = ''
 }

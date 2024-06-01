@@ -1,26 +1,30 @@
 <div class="container">
   <div class="grid">
-    <div class="cols-12 genres-links">
-      <ng-container *ngIf="genres$ | async as genres">
-        <a *ngFor="let genre of genres" [routerLink]="'/genres/' + genre.id" role="button" aria-hidden="true">{{
-          genre.name }}</a>
-      </ng-container>
+    <div class="cols-12 media-buttons">
+      <a role="button" aria-hidden="true" [ngClass]="{ active: isActiveMovies }"
+        (click)="toggleActive('movie')">Movies</a>
+      <a role="button" aria-hidden="true" [ngClass]="{ active: isActiveTvshows }" (click)="toggleActive('tv')">TV
+        Shows</a>
+    </div>
+
+    <div *ngIf="genres$ | async as genres" class="cols-12 genres-links">
+      <a *ngFor="let genre of genres" [routerLink]="'/genres/' + genre.id" role="button" aria-hidden="true">{{
+        genre.name }}</a>
     </div>
   </div>
 
-  <ng-container *ngIf="showsList$ | async as showsList">
-    <div class="grid">
-      <div class="col-2" *ngFor="let show of showsList.results">
-        <app-show-item [showItem]="show"></app-show-item>
-      </div>
+  <!-- Show items -->
+  <div *ngIf="media$ | async as media" class="grid">
+    <div class="col-2" *ngFor="let mediaItem of media.results">
+      <app-show-item [mediaItem]="mediaItem"></app-show-item>
     </div>
+  </div>
 
-    <!-- Paginator -->
-    <div class="grid">
-      <div class="col-12">
-        <p-paginator (onPageChange)="pageChanged($event)" [rows]="20"
-          [totalRecords]="showsList.total_results"></p-paginator>
-      </div>
+  <!-- Paginator -->
+  <div class="grid">
+    <div class="col-12">
+      <app-paginator [media$]="media$" [genreId]="genreId" [mediaType]="mediaType"
+        (pageEmitter)="onPageChange($event)"></app-paginator>
     </div>
-  </ng-container>
+  </div>
 </div>

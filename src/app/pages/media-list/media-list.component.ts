@@ -8,51 +8,51 @@ import { PaginatorState } from 'primeng/paginator'
 import { TvshowsService } from '../../services/tvshows.service'
 
 @Component({
-  selector: 'app-shows-list',
-  templateUrl: './shows-list.component.html',
-  styleUrl: './shows-list.component.scss',
+  selector: 'app-media-list',
+  templateUrl: './media-list.component.html',
+  styleUrl: './media-list.component.scss',
 })
-export class ShowsListComponent implements OnInit {
+export class MediaListComponent implements OnInit {
   private activeRoute = inject(ActivatedRoute)
   private moviesService = inject(MoviesService)
   private tvshowsService = inject(TvshowsService)
 
-  public showsList$: Observable<MoviesDto> | null = null
+  public media$: Observable<MoviesDto> | null = null
 
   public searchValue = ''
-  public showsType: 'movie' | 'tv' = 'movie'
+  public mediaType: 'movie' | 'tv' = 'movie'
 
   constructor() {}
 
   // Get the type of show as an activated route param. Initialize the component by its type and its first page.
   ngOnInit() {
     this.activeRoute.params.subscribe((params) => {
-      this.showsType = params['type']
-      this.getPagedShows(this.showsType, 1)
+      this.mediaType = params['type']
+      this.getPagedShows(this.mediaType, 1)
     })
   }
 
-  // Get shows by their type, page, and search keyword.
-  public getPagedShows(showsType: 'movie' | 'tv', page: number, searchKeyword?: string) {
-    if (showsType === 'movie') {
-      this.showsList$ = this.moviesService.searchMovies(page, searchKeyword)
-    }
+  // Search data received from Emitter
+  public searchEmitted(searchValue: string) {
+    this.searchValue = searchValue
+    this.getPagedShows(this.mediaType, 1, this.searchValue)
+  }
 
-    if (showsType === 'tv') {
-      this.showsList$ = this.tvshowsService.searchTvshows(page, searchKeyword).pipe(map(mapToMoviesDto))
-    }
+  // Get shows by their type, page, and search keyword.
+  public getPagedShows(mediaType: 'movie' | 'tv', page: number, searchKeyword?: string) {
+    mediaType === 'movie' ? (this.media$ = this.moviesService.searchMovies(page, searchKeyword)) : (this.media$ = this.tvshowsService.searchTvshows(page, searchKeyword).pipe(map(mapToMoviesDto)))
   }
 
   // Everytime the input changes, get the new search keyword and page number.
   public searchChanged() {
-    this.getPagedShows(this.showsType, 1, this.searchValue)
+    this.getPagedShows(this.mediaType, 1, this.searchValue)
   }
 
   // Get the shows in referrence to its page number
   public pageChanged(event: PaginatorState) {
     const pageNumber = event.page ? event.page + 1 : 1
     if (event.page) {
-      this.getPagedShows(this.showsType, pageNumber, this.searchValue)
+      this.getPagedShows(this.mediaType, pageNumber, this.searchValue)
     }
   }
 }

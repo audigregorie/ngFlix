@@ -3,7 +3,7 @@ import { CreditsDto } from '../types/credits'
 import { environment } from '../../environments/environment.development'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { ImagesDto } from '../types/image'
-import { map } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { Tvshow, TvshowsDto } from '../types/tvshow'
 import { VideosDto } from '../types/video'
 
@@ -16,14 +16,12 @@ export class TvshowsService {
   private apiUrl = 'https://api.themoviedb.org/3'
   private baseParam = new HttpParams().set('api_key', environment.tmdbApiKey)
 
-  constructor() {}
+  constructor() { }
 
   // Get tvshows by type
   public getTvshowsByType(type: string, count = 20) {
     const params = this.baseParam
-    return this.http
-      .get<TvshowsDto>(`${this.apiUrl}/tv/${type}`, { params })
-      .pipe(map((data) => data.results.slice(0, count)))
+    return this.http.get<TvshowsDto>(`${this.apiUrl}/tv/${type}`, { params }).pipe(map((data) => data.results.slice(0, count)))
   }
 
   // Get tvshows by id
@@ -53,9 +51,7 @@ export class TvshowsService {
   // Get similar tvshows
   public getSimilarTvshows(id: string) {
     const params = this.baseParam
-    return this.http
-      .get<TvshowsDto>(`${this.apiUrl}/tv/${id}/similar`, { params })
-      .pipe(map((data) => data.results.slice(0, 12)))
+    return this.http.get<TvshowsDto>(`${this.apiUrl}/tv/${id}/similar`, { params }).pipe(map((data) => data.results.slice(0, 12)))
   }
 
   // Search tvshows
@@ -63,5 +59,12 @@ export class TvshowsService {
     const params = this.baseParam.set('page', page.toString())
     const uri = searchValue ? '/search/tv' : '/tv/popular'
     return this.http.get<TvshowsDto>(`${this.apiUrl}${uri}?query=${searchValue}`, { params })
+  }
+
+  // Get tv shows by its genre
+  public getTvshowsByGenre(page = 1, genreId: string): Observable<TvshowsDto> {
+    const params = this.baseParam.set('page', page.toString()).set('with_genres', genreId)
+    const uri = genreId ? 'discover/tv' : 'tv/popular'
+    return this.http.get<TvshowsDto>(`${this.apiUrl}/${uri}`, { params }).pipe(map((data) => data))
   }
 }

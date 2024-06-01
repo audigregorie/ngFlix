@@ -8,8 +8,8 @@ import { Movie } from '../../types/movie'
   styleUrl: './show-item.component.scss',
 })
 export class ShowItemComponent {
-  @Input() public showItem: Movie | null = null
-  @Input() public showType: 'movie' | 'tv' = 'movie'
+  @Input() public mediaItem: Movie | null = null
+  @Input() public mediaType: 'movie' | 'tv' = 'movie'
 
   public imagesBaseUrl = imagesBaseUrl
 }

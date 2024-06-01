@@ -5,15 +5,15 @@
 
 <!-- // Upcoming Movies -->
 <ng-container *ngIf="upcomingMovies$ | async as upcomingMovies">
-  <app-banner [title]="'Upcoming Movies'" [shows]="upcomingMovies" showsType="movie"></app-banner>
+  <app-banner [title]="'Upcoming Movies'" [media]="upcomingMovies"></app-banner>
 </ng-container>
 
 <!-- // Top Rated Movies -->
 <ng-container *ngIf="topRatedMovies$ | async as topRatedMovies">
-  <app-banner [title]="'Top Rated Movies'" [shows]="topRatedMovies" showsType="movie"></app-banner>
+  <app-banner [title]="'Top Rated Movies'" [media]="topRatedMovies"></app-banner>
 </ng-container>
 
 <!-- // Popular Tv Shows -->
 <ng-container *ngIf="popularTvshows$ | async as popularTvshows">
-  <app-banner [title]="'Popular Tv Shows'" [shows]="popularTvshows" showsTypes="tv"></app-banner>
+  <app-banner [title]="'Popular Tv Shows'" [media]="popularTvshows"></app-banner>
 </ng-container>

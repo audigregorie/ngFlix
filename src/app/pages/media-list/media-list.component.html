@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12">
+      <app-search (searchEmitter)="searchEmitted($event)"></app-search>
+    </div>
+  </div>
+
+  <!-- List of shows by search -->
+  <ng-container *ngIf="media$ | async as media">
+    <div class="grid">
+      <div class="col-2" *ngFor="let mediaItem of media.results">
+        <app-show-item [mediaItem]="mediaItem" [mediaType]="mediaType"></app-show-item>
+      </div>
+    </div>
+
+    <!-- Paginator -->
+    <div class="grid">
+      <div class="col-12">
+        <p-paginator (onPageChange)="pageChanged($event)" [rows]="20"
+          [totalRecords]="media.total_results"></p-paginator>
+      </div>
+    </div>
+  </ng-container>
+</div>
