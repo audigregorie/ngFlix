@@ -19,13 +19,13 @@ import { FooterComponent } from './shared/footer/footer.component'
 import { GenresComponent } from './pages/genres/genres.component'
 import { HeaderComponent } from './shared/header/header.component'
 import { HomeComponent } from './pages/home/home.component'
-import { ShowDetailComponent } from './pages/show-detail/show-detail.component'
-import { ShowItemComponent } from './components/show-item/show-item.component'
 import { SliderComponent } from './components/slider/slider.component'
 import { VideoEmbedComponent } from './components/video-embed/video-embed.component'
 import { SearchComponent } from './components/search/search.component'
 import { PaginatorComponent } from './components/paginator/paginator.component'
 import { MediaListComponent } from './pages/media-list/media-list.component'
+import { MediaDetailComponent } from './pages/media-detail/media-detail.component'
+import { MediaItemComponent } from './components/media-item/media-item.component'
 
 @NgModule({
   declarations: [
@@ -35,13 +35,13 @@ import { MediaListComponent } from './pages/media-list/media-list.component'
     GenresComponent,
     HeaderComponent,
     HomeComponent,
-    ShowDetailComponent,
-    ShowItemComponent,
     SliderComponent,
     VideoEmbedComponent,
     SearchComponent,
     PaginatorComponent,
     MediaListComponent,
+    MediaDetailComponent,
+    MediaItemComponent,
   ],
   imports: [AppRoutingModule, BrowserAnimationsModule, BrowserModule, CarouselModule, FormsModule, HttpClientModule, ImageModule, InputTextModule, PaginatorModule, TabViewModule, ReactiveFormsModule],
   providers: [],

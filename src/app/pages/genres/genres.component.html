@@ -7,6 +7,7 @@
         Shows</a>
     </div>
 
+    <!-- List genres -->
     <div *ngIf="genres$ | async as genres" class="cols-12 genres-links">
       <a *ngFor="let genre of genres" [routerLink]="'/genres/' + genre.id" role="button" aria-hidden="true">{{
         genre.name }}</a>
@@ -16,7 +17,7 @@
   <!-- Show items -->
   <div *ngIf="media$ | async as media" class="grid">
     <div class="col-2" *ngFor="let mediaItem of media.results">
-      <app-show-item [mediaItem]="mediaItem"></app-show-item>
+      <app-media-item [mediaItem]="mediaItem"></app-media-item>
     </div>
   </div>
 

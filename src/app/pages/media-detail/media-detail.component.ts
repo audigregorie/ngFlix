@@ -11,11 +11,11 @@ import { TvshowsService } from '../../services/tvshows.service'
 import { Video } from '../../types/video'
 
 @Component({
-  selector: 'app-show-detail',
-  templateUrl: './show-detail.component.html',
-  styleUrl: './show-detail.component.scss',
+  selector: 'app-media-detail',
+  templateUrl: './media-detail.component.html',
+  styleUrl: './media-detail.component.scss',
 })
-export class ShowDetailComponent implements OnInit {
+export class MediaDetailComponent implements OnInit {
   private activeRoute = inject(ActivatedRoute)
   private moviesService = inject(MoviesService)
   private tvshowsService = inject(TvshowsService)

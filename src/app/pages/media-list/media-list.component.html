@@ -5,11 +5,11 @@
     </div>
   </div>
 
-  <!-- List of shows by search -->
+  <!-- List media -->
   <ng-container *ngIf="media$ | async as media">
     <div class="grid">
       <div class="col-2" *ngFor="let mediaItem of media.results">
-        <app-show-item [mediaItem]="mediaItem" [mediaType]="mediaType"></app-show-item>
+        <app-media-item [mediaItem]="mediaItem" [mediaType]="mediaType"></app-media-item>
       </div>
     </div>
 

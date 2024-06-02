@@ -3,11 +3,11 @@ import { imagesBaseUrl } from '../../constants/images-sizes'
 import { Movie } from '../../types/movie'
 
 @Component({
-  selector: 'app-show-item',
-  templateUrl: './show-item.component.html',
-  styleUrl: './show-item.component.scss',
+  selector: 'app-media-item',
+  templateUrl: './media-item.component.html',
+  styleUrl: './media-item.component.scss',
 })
-export class ShowItemComponent {
+export class MediaItemComponent {
   @Input() public mediaItem: Movie | null = null
   @Input() public mediaType: 'movie' | 'tv' = 'movie'
 
