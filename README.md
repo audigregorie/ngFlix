@@ -10,4 +10,6 @@ Tools used:
 - PrimeFlex
 - PrimeNg
 
+Check out the live demo of this app at [WeFlix](https://github.com/audigregorie/weFlix)
+
 \_ AY 2024
